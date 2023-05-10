@@ -29,6 +29,37 @@ export const FirebaseProvider = ({ children }) => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [userData, setUserData] = useState([]);
+  const [schedules, setSchedules] = useState([]);
+
+  useEffect(() => {
+    if (user) {
+      const unsubscribe = db.collection("users").onSnapshot((snapshot) => {
+        const documents = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setUserData(documents);
+      });
+
+      return unsubscribe;
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (user) {
+      const unsubscribe = db.collection("Schedules").onSnapshot((snapshot) => {
+        const documents = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setSchedules(documents);
+      });
+
+      return unsubscribe;
+    }
+  }, [user]);
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
@@ -50,55 +81,95 @@ export const FirebaseProvider = ({ children }) => {
 
   const handleLogin = (event) => {
     event.preventDefault();
+    setIsLoading(true);
 
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
+      .then(() => {
+        setIsLoading(false);
+      })
       .catch((error) => {
         setError(error.message);
+        setIsLoading(false);
       });
     console.log(error);
   };
 
   const handleRegister = (event) => {
     event.preventDefault();
+    setIsLoading(true);
 
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then((userCredential) => {
+        setIsLoading(false);
         const user = userCredential.user;
         const defaultRole = "user";
 
-        return db.collection("users").doc(user.uid).set({
+        const defaultSchedules = {
+          Mon: "N/A",
+          Tue: "N/A",
+          Wed: "N/A",
+          Thu: "N/A",
+          Fri: "N/A",
+          Sat: "N/A",
+          Sun: "N/A",
+        };
+
+        db.collection("users").doc(user.uid).set({
           email: email,
           role: defaultRole,
+        });
+
+        db.collection("Schedules").doc().set({
+          Mon: defaultSchedules.Mon,
+          Tue: defaultSchedules.Tue,
+          Wed: defaultSchedules.Wed,
+          Thu: defaultSchedules.Thu,
+          Fri: defaultSchedules.Fri,
+          Sat: defaultSchedules.Sat,
+          Sun: defaultSchedules.Sun,
+          userId: user.uid,
         });
       })
       .catch((error) => {
         setError(error.message);
+        setIsLoading(false);
       });
   };
 
   const handleLogout = (event) => {
     event.preventDefault();
+    setIsLoading(true);
+    setEmail("");
+    setPassword("");
 
     firebase
       .auth()
       .signOut()
+      .then(() => {
+        setIsLoading(false);
+      })
       .catch((error) => {
         setError(error.message);
+        setIsLoading(false);
       });
   };
 
   return (
     <FirebaseContext.Provider
       value={{
-        data: db,
+        userData,
+        schedules,
         email,
         password,
         error,
         user,
+        isLoading,
+        setEmail,
+        setPassword,
         handleEmailChange,
         handlePasswordChange,
         handleLogin,

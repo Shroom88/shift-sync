@@ -1,0 +1,19 @@
+@mixin btn-hover {
+  background-color: #b1b1b1;
+  border: 2px solid #fff;
+  color: black;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 4px 2px;
+  cursor: pointer;
+  transition: background-color 0.4s ease;
+
+  &:hover {
+    background-color: #000;
+    color: #b1b1b1;
+  }
+}
