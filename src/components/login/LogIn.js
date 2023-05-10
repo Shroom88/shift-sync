@@ -1,30 +1,33 @@
-import { useContext } from "react";
-import FirebaseContext from "../FirebaseContext";
+import { useContext, useState } from "react";
+import FirebaseContext from "../../FirebaseContext";
+import Register from "../register/Register";
 
 const LogIn = () => {
+  const [register, setRegister] = useState(false);
+
   const {
-    // data,
     email,
     password,
     error,
-    user,
     handleEmailChange,
     handlePasswordChange,
-    // handleLogin,
-    handleRegister,
-    handleLogout,
+    handleLogin,
   } = useContext(FirebaseContext);
 
-  return user ? (
-    <div>
-      <h2>Hello, {user.email}</h2>
-      <button onClick={handleLogout}>Logout</button>
-      {error && <div>{error}</div>}
-    </div>
+  const handleLogInSwitch = () => {
+    setRegister(false);
+  };
+
+  const handleRegSwitch = () => {
+    setRegister(true);
+  };
+
+  return register ? (
+    <Register handleLogInSwitch={handleLogInSwitch} />
   ) : (
     <div>
       <h2>Login</h2>
-      <form onSubmit={handleRegister}>
+      <form onSubmit={handleLogin}>
         <label>
           Email:
           <input type="email" value={email} onChange={handleEmailChange} />
@@ -39,6 +42,9 @@ const LogIn = () => {
         </label>
         <button type="submit">Login</button>
       </form>
+      <button type="" onClick={() => handleRegSwitch()}>
+        No account? Register here
+      </button>
       <br />
       {error && <div>{error}</div>}
     </div>

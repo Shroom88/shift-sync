@@ -34,12 +34,11 @@ export const FirebaseProvider = ({ children }) => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         setUser(user);
-        // console.log(user);
       } else {
         setUser(null);
       }
     });
-  }, []);
+  });
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -71,10 +70,10 @@ export const FirebaseProvider = ({ children }) => {
         const user = userCredential.user;
         const defaultRole = "user";
 
-        return db.collection("asd").doc(user.uid).set({
+        return db.collection("users").doc(user.uid).set({
           email: email,
           role: defaultRole,
-        }); // this doesn't add anything ?
+        });
       })
       .catch((error) => {
         setError(error.message);
