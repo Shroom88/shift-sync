@@ -5,7 +5,8 @@ import { useContext } from "react";
 import FirebaseContext from "../../FirebaseContext";
 
 function Header() {
-  const { user, setRegister, handleLogout } = useContext(FirebaseContext);
+  const { user, setRegister, handleLogout, isLoading } =
+    useContext(FirebaseContext);
 
   const handleLoginBtn = () => {
     setRegister(false);
@@ -22,7 +23,9 @@ function Header() {
       <div className="header__cube-2"></div>
       <div className="header__cube-3"></div>
       <div className="header__cube-4"></div>
-      {user ? (
+      {isLoading ? (
+        <div></div>
+      ) : user ? (
         <div className="header__logged">
           <h1 className="header__welcome">Hello, {user.email}</h1>
           <button className="header__btn" onClick={handleLogout}>
