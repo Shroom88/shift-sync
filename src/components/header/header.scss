@@ -1,0 +1,100 @@
+@import "../../styles/variables";
+@import "../../styles/mixins";
+
+@import url("https://fonts.googleapis.com/css2?family=Hind&display=swap");
+
+.header {
+  position: relative;
+  min-height: 100px;
+  background-color: $theme-color-third;
+  border-bottom: 2px solid $theme-color-secondary;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  margin-bottom: 50px;
+
+  &__cube {
+    @include cube;
+
+    left: 25%;
+    bottom: 9px;
+    animation: Rotation 10s infinite;
+  }
+
+  &__cube-2 {
+    @include cube;
+
+    right: 50%;
+    top: 9px;
+    animation: RotationReverse 7s infinite;
+  }
+
+  &__cube-3 {
+    @include cube;
+
+    border-color: $theme-color-secondary;
+    right: 35%;
+    animation: Rotation 5s infinite;
+  }
+
+  &__cube-4 {
+    @include cube;
+
+    border-color: $theme-color-secondary;
+    left: 41%;
+    animation: Rotation 9s infinite;
+  }
+
+  &__logo {
+    width: 125px;
+  }
+
+  &__btn {
+    @include btn-hover;
+
+    border: 2px solid $theme-color-third;
+    font-family: "Hind";
+    font-size: 1.7rem;
+    background-color: $theme-color-third;
+    padding: 5px 32px;
+
+    &:hover {
+      background-color: $theme-color-primary;
+      border-color: $theme-color-secondary;
+    }
+  }
+
+  &__logged {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  &__welcome {
+    font-family: "Hind";
+    font-size: 2.2rem;
+    border-top: 1px solid $theme-color-primary;
+    border-bottom: 1px solid $theme-color-primary;
+  }
+}
+
+@keyframes Rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes RotationReverse {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(-360deg);
+  }
+}

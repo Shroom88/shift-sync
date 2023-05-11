@@ -1,0 +1,12 @@
+$theme-color-primary: #336666;
+$theme-color-secondary: #ffff00;
+$theme-color-third: #99b333;
+
+$theme-font-family: "Hind-Regular", sans-serif;
+
+@font-face {
+  font-family: "Hind-Regular";
+  src: url("../assets/fonts/Hind-Regular.ttf") format("ttf");
+  font-weight: normal;
+  font-style: normal;
+}

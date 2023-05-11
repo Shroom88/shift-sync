@@ -2,11 +2,11 @@ import React from "react";
 import { useContext } from "react";
 import FirebaseContext from "../../FirebaseContext";
 import LogIn from "../login/LogIn";
+import Loader from "../loader/Loader";
 import "./shifts.scss";
 
 function Shifts() {
-  const { schedules, userData, user, handleLogout } =
-    useContext(FirebaseContext);
+  const { schedules, userData, user, isLoading } = useContext(FirebaseContext);
 
   const dates = [];
   const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -22,9 +22,10 @@ function Shifts() {
     day: "2-digit",
   };
 
-  return user ? (
+  return isLoading ? (
+    <Loader />
+  ) : user ? (
     <div>
-      <h1>Welcome to ShiftSync, {user.email}</h1>
       <div className="shifts container">
         <div className="shifts__row">
           <div className="shifts__col shifts__col--header">User</div>
@@ -53,9 +54,6 @@ function Shifts() {
           </div>
         ))}
       </div>
-      <button type="" className="shifts__btn" onClick={handleLogout}>
-        Log Out
-      </button>
     </div>
   ) : (
     <LogIn />

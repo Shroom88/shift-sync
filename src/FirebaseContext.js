@@ -29,9 +29,10 @@ export const FirebaseProvider = ({ children }) => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [user, setUser] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [userData, setUserData] = useState([]);
   const [schedules, setSchedules] = useState([]);
+  const [register, setRegister] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -65,11 +66,13 @@ export const FirebaseProvider = ({ children }) => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         setUser(user);
+        setIsLoading(false);
       } else {
         setUser(null);
+        setIsLoading(false);
       }
     });
-  });
+  }, []);
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -168,6 +171,8 @@ export const FirebaseProvider = ({ children }) => {
         error,
         user,
         isLoading,
+        register,
+        setRegister,
         setEmail,
         setPassword,
         handleEmailChange,
