@@ -56,6 +56,8 @@ const LogIn = () => {
               placeholder="Password"
               onChange={handlePasswordChange}
             />
+            {error && <div className="login__error">{error}</div>}
+
             <button className="login__btn" type="submit">
               Login
             </button>
@@ -64,7 +66,6 @@ const LogIn = () => {
             No account? Register here
           </button>
           <br />
-          {error && <div className="login__error">{error}</div>}
         </div>
       )}
     </div>
