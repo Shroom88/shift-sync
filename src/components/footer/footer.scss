@@ -1,0 +1,67 @@
+@import "../../styles/mixins";
+@import "../../styles/variables";
+
+@import url("https://fonts.googleapis.com/css2?family=Hind&display=swap");
+
+.footer {
+  position: fixed;
+  width: 100%;
+  height: 100px;
+  bottom: 0;
+  background-color: $theme-color-third;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  border-top: 1px solid $theme-color-secondary;
+
+  &__cube {
+    @include cube;
+
+    top: 22px;
+    left: 58px;
+    animation: Rotation 6s infinite;
+  }
+
+  &__cube-2 {
+    @include cube;
+
+    top: 42px;
+    left: 36%;
+    border-color: $theme-color-secondary;
+    animation: RotationReverse 10s infinite;
+  }
+
+  &__cube-3 {
+    @include cube;
+
+    bottom: 13px;
+    right: 284px;
+    animation: Rotation 3s infinite;
+  }
+
+  &__text {
+    font-family: "Hind";
+    font-size: 1.6rem;
+    border-top: 1px solid $theme-color-secondary;
+  }
+}
+
+@keyframes Rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes RotationReverse {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(-360deg);
+  }
+}

@@ -5,7 +5,7 @@ import { useContext } from "react";
 import FirebaseContext from "../../FirebaseContext";
 
 function Header() {
-  const { user, setRegister, handleLogout, isLoading } =
+  const { user, userData, setRegister, handleLogout, isLoading } =
     useContext(FirebaseContext);
 
   const handleLoginBtn = () => {
@@ -27,7 +27,12 @@ function Header() {
         <div></div>
       ) : user ? (
         <div className="header__logged">
-          <h1 className="header__welcome">Hello, {user.email}</h1>
+          <h1 className="header__welcome">
+            Hello,{" "}
+            {userData
+              .filter((u) => u.email === user.email)
+              .map((user) => user.name)}
+          </h1>
           <button className="header__btn" onClick={handleLogout}>
             Log Out
           </button>

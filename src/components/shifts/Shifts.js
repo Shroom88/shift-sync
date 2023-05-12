@@ -44,7 +44,7 @@ function Shifts() {
             <div className="shifts__col" key={schedule.userId}>
               {userData
                 .filter((user) => user.id === schedule.userId)
-                .map((user) => user.email)}
+                .map((user) => user.name)}
             </div>
             {dates.map((date) => (
               <div className="shifts__col" key={[weekdays[date.getDay()]]}>

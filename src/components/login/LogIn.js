@@ -38,7 +38,9 @@ const LogIn = () => {
     <Loader />
   ) : (
     <div className="container">
-      <h1 className="heading">Welcome to ShiftSync</h1>
+      <h1 className="heading">
+        Welcome to <span className="heading--projectname">ShiftSync</span>
+      </h1>
       {register ? (
         <Register handleLogInSwitch={handleLogInSwitch} />
       ) : (

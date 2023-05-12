@@ -33,6 +33,7 @@ export const FirebaseProvider = ({ children }) => {
   const [userData, setUserData] = useState([]);
   const [schedules, setSchedules] = useState([]);
   const [register, setRegister] = useState(false);
+  const [fullName, setFullName] = useState("");
 
   useEffect(() => {
     if (user) {
@@ -82,6 +83,10 @@ export const FirebaseProvider = ({ children }) => {
     setPassword(event.target.value);
   };
 
+  const handleFullNameChange = (e) => {
+    setFullName(e.target.value);
+  };
+
   const handleLogin = (event) => {
     event.preventDefault();
     setIsLoading(true);
@@ -94,6 +99,7 @@ export const FirebaseProvider = ({ children }) => {
       })
       .catch((error) => {
         setError(error.message);
+        console.log("login");
         setIsLoading(false);
       });
     console.log(error);
@@ -122,6 +128,7 @@ export const FirebaseProvider = ({ children }) => {
         };
 
         db.collection("users").doc(user.uid).set({
+          name: fullName,
           email: email,
           role: defaultRole,
         });
@@ -148,6 +155,8 @@ export const FirebaseProvider = ({ children }) => {
     setIsLoading(true);
     setEmail("");
     setPassword("");
+    setFullName("");
+    setError("");
 
     firebase
       .auth()
@@ -157,6 +166,7 @@ export const FirebaseProvider = ({ children }) => {
       })
       .catch((error) => {
         setError(error.message);
+        console.log("logout");
         setIsLoading(false);
       });
   };
@@ -166,6 +176,7 @@ export const FirebaseProvider = ({ children }) => {
       value={{
         userData,
         schedules,
+        fullName,
         email,
         password,
         error,
@@ -175,6 +186,7 @@ export const FirebaseProvider = ({ children }) => {
         setRegister,
         setEmail,
         setPassword,
+        handleFullNameChange,
         handleEmailChange,
         handlePasswordChange,
         handleLogin,
