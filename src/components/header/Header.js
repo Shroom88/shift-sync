@@ -5,14 +5,16 @@ import { useContext } from "react";
 import FirebaseContext from "../../FirebaseContext";
 
 function Header() {
-  const { user, userData, setRegister, handleLogout, isLoading } =
+  const { user, userData, setRegister, handleLogout, isLoading, clearStates } =
     useContext(FirebaseContext);
 
   const handleLoginBtn = () => {
+    clearStates();
     setRegister(false);
   };
 
   const handleRegBtn = () => {
+    clearStates();
     setRegister(true);
   };
 

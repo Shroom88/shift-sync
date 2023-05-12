@@ -171,6 +171,13 @@ export const FirebaseProvider = ({ children }) => {
       });
   };
 
+  const clearStates = () => {
+    setEmail("");
+    setFullName("");
+    setPassword("");
+    setError("");
+  };
+
   return (
     <FirebaseContext.Provider
       value={{
@@ -184,6 +191,7 @@ export const FirebaseProvider = ({ children }) => {
         isLoading,
         register,
         setRegister,
+        setFullName,
         setEmail,
         setPassword,
         handleFullNameChange,
@@ -192,6 +200,7 @@ export const FirebaseProvider = ({ children }) => {
         handleLogin,
         handleRegister,
         handleLogout,
+        clearStates,
       }}
     >
       {children}

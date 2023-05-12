@@ -10,28 +10,22 @@ const LogIn = () => {
     password,
     register,
     setRegister,
-    setEmail,
-    setPassword,
     isLoading,
     error,
     handleEmailChange,
     handlePasswordChange,
     handleLogin,
+    clearStates,
   } = useContext(FirebaseContext);
-
-  const clearInputs = () => {
-    setEmail("");
-    setPassword("");
-  };
 
   const handleLogInSwitch = () => {
     setRegister(false);
-    clearInputs();
+    clearStates();
   };
 
   const handleRegSwitch = () => {
     setRegister(true);
-    clearInputs();
+    clearStates();
   };
 
   return isLoading ? (
