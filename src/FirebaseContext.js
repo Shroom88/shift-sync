@@ -28,16 +28,17 @@ export const FirebaseProvider = ({ children }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [shift, setShift] = useState("No Data");
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [userData, setUserData] = useState([]);
   const [schedules, setSchedules] = useState([]);
   const [register, setRegister] = useState(false);
-  const [fullName, setFullName] = useState("");
 
   useEffect(() => {
     if (user) {
-      const unsubscribe = db.collection("users").onSnapshot((snapshot) => {
+      const unsubscribeUsers = db.collection("users").onSnapshot((snapshot) => {
         const documents = snapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
@@ -45,21 +46,20 @@ export const FirebaseProvider = ({ children }) => {
         setUserData(documents);
       });
 
-      return unsubscribe;
-    }
-  }, [user]);
+      const unsubscribeSchedules = db
+        .collection("Schedules")
+        .onSnapshot((snapshot) => {
+          const documents = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
+          setSchedules(documents);
+        });
 
-  useEffect(() => {
-    if (user) {
-      const unsubscribe = db.collection("Schedules").onSnapshot((snapshot) => {
-        const documents = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setSchedules(documents);
-      });
-
-      return unsubscribe;
+      return () => {
+        unsubscribeUsers();
+        unsubscribeSchedules();
+      };
     }
   }, [user]);
 
@@ -118,13 +118,13 @@ export const FirebaseProvider = ({ children }) => {
         const defaultRole = "user";
 
         const defaultSchedules = {
-          Mon: "N/A",
-          Tue: "N/A",
-          Wed: "N/A",
-          Thu: "N/A",
-          Fri: "N/A",
-          Sat: "N/A",
-          Sun: "N/A",
+          Mon: "No Data",
+          Tue: "No Data",
+          Wed: "No Data",
+          Thu: "No Data",
+          Fri: "No Data",
+          Sat: "No Data",
+          Sun: "No Data",
         };
 
         db.collection("users").doc(user.uid).set({
@@ -150,13 +150,21 @@ export const FirebaseProvider = ({ children }) => {
       });
   };
 
+  const updateSchedule = async (scheduleId, field) => {
+    try {
+      const scheduleRef = db.collection("Schedules").doc(scheduleId);
+      const updateSchedule = {};
+      updateSchedule[field] = shift; //update the specific day in the schedule collection
+
+      await scheduleRef.update(updateSchedule);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleLogout = (event) => {
-    event.preventDefault();
     setIsLoading(true);
-    setEmail("");
-    setPassword("");
-    setFullName("");
-    setError("");
+    clearStates();
 
     firebase
       .auth()
@@ -176,6 +184,7 @@ export const FirebaseProvider = ({ children }) => {
     setFullName("");
     setPassword("");
     setError("");
+    setRegister(false);
   };
 
   return (
@@ -186,6 +195,7 @@ export const FirebaseProvider = ({ children }) => {
         fullName,
         email,
         password,
+        shift,
         error,
         user,
         isLoading,
@@ -194,12 +204,14 @@ export const FirebaseProvider = ({ children }) => {
         setFullName,
         setEmail,
         setPassword,
+        setShift,
         handleFullNameChange,
         handleEmailChange,
         handlePasswordChange,
         handleLogin,
         handleRegister,
         handleLogout,
+        updateSchedule,
         clearStates,
       }}
     >

@@ -18,7 +18,6 @@
 
   &__col {
     flex: 1;
-    padding: 8px;
     background-color: #ccc;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -27,6 +26,10 @@
     font-size: 1.6rem;
     border-left: 1px solid $theme-color-third;
     text-align: center;
+
+    &--user {
+      padding: 8px;
+    }
 
     &--header {
       display: flex;

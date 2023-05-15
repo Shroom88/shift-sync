@@ -3,6 +3,7 @@ import { useContext } from "react";
 import FirebaseContext from "../../FirebaseContext";
 import LogIn from "../login/LogIn";
 import Loader from "../loader/Loader";
+import ShiftPopUp from "../manage-shift-pop-up/ShiftPopUp";
 import "./shifts.scss";
 
 function Shifts() {
@@ -18,6 +19,12 @@ function Shifts() {
   }
 
   const dateOptions = {
+    month: "numeric",
+    day: "2-digit",
+  };
+
+  const popupDateOpt = {
+    weekday: "long",
     month: "numeric",
     day: "2-digit",
   };
@@ -41,14 +48,24 @@ function Shifts() {
         </div>
         {schedules.map((schedule) => (
           <div className="shifts__row" key={schedule.id}>
-            <div className="shifts__col" key={schedule.userId}>
+            <div
+              className="shifts__col shifts__col--user"
+              key={schedule.userId}
+            >
               {userData
                 .filter((user) => user.id === schedule.userId)
                 .map((user) => user.name)}
             </div>
             {dates.map((date) => (
-              <div className="shifts__col" key={[weekdays[date.getDay()]]}>
-                <button type=""> {schedule[weekdays[date.getDay()]]}</button>
+              <div className="shifts__col" key={weekdays[date.getDay()]}>
+                <ShiftPopUp
+                  className={"shifts__col"}
+                  currCell={weekdays[date.getDay()]}
+                  currDate={date.toLocaleDateString(undefined, popupDateOpt)}
+                  scheduleId={schedule.id}
+                >
+                  {schedule[weekdays[date.getDay()]]}
+                </ShiftPopUp>
               </div>
             ))}
           </div>
