@@ -19,13 +19,12 @@ const LogIn = () => {
   } = useContext(FirebaseContext);
 
   const handleLogInSwitch = () => {
-    setRegister(false);
     clearStates();
   };
 
   const handleRegSwitch = () => {
-    setRegister(true);
     clearStates();
+    setRegister(true);
   };
 
   return isLoading ? (
@@ -62,7 +61,7 @@ const LogIn = () => {
               Login
             </button>
           </form>
-          <button className="login__btn" onClick={() => handleRegSwitch()}>
+          <button className="login__btn" onClick={handleRegSwitch}>
             No account? Register here
           </button>
           <br />

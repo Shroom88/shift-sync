@@ -37,17 +37,78 @@
 
   &__popup-content {
     position: relative;
-    background-color: #fff;
+    background-color: $theme-color-third;
     padding: 20px;
+    border: 2px solid $theme-color-secondary;
+  }
+
+  &__form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  &__custom-checkbox {
+    position: relative;
+    padding-right: 25px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  &__checkbox {
+    position: absolute;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  &__checkmark {
+    position: absolute;
+    top: 1px;
+    right: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #ccc;
+
+    &::after {
+      content: "";
+      position: absolute;
+      display: none;
+    }
   }
 
   &__close-btn {
     position: absolute;
-    top: 10px;
+    top: 5px;
     right: 10px;
-    background: none;
-    border: none;
-    font-size: 18px;
+    font-size: 3rem;
     cursor: pointer;
+  }
+
+  &__submit {
+    @include btn-hover;
+
+    padding: 5px 20px;
+  }
+
+  .shift-edit__checkbox:checked ~ .shift-edit__checkmark {
+    background-color: $theme-color-primary; /* Green color */
+  }
+
+  .shift-edit__checkbox:checked ~ .shift-edit__checkmark::after {
+    display: block;
+  }
+
+  .shift-edit__checkbox ~ .shift-edit__checkmark::after {
+    content: "";
+    left: 7px;
+    top: 3px;
+    width: 5px;
+    height: 9px;
+    border: solid $theme-color-secondary;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
   }
 }

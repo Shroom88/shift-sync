@@ -12,7 +12,7 @@ function Shifts() {
   const dates = [];
   const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 7; i++) {
     const date = new Date();
     date.setDate(date.getDate() + i);
     dates.push(date);

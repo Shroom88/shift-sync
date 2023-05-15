@@ -2,12 +2,21 @@ import React from "react";
 import { useState } from "react";
 import { useContext } from "react";
 import FirebaseContext from "../../FirebaseContext";
+import Dropdown from "../dropdown/Dropdown";
 import "./shift-pop-up.scss";
 
 function ShiftPopUp({ currDate, currCell, scheduleId, children }) {
-  const { shift, setShift, updateSchedule } = useContext(FirebaseContext);
+  const { setShift, updateSchedule } = useContext(FirebaseContext);
 
   const [isOpen, setIsOpen] = useState(false);
+
+  // TODO: add to a collection in firebase
+  const options = [
+    { value: "Rest Day", label: "Rest Day" },
+    { value: "10:00 - 18:00", label: "Day Shift" },
+    { value: "18:00 - 00:00", label: "Middle Shift" },
+    { value: "00:00 - 08:00", label: "Night Shift" },
+  ];
 
   const handleOpen = () => {
     setShift(children);
@@ -16,10 +25,6 @@ function ShiftPopUp({ currDate, currCell, scheduleId, children }) {
 
   const handleClose = () => {
     setIsOpen(false);
-  };
-
-  const handleChange = (e) => {
-    setShift(e.target.value);
   };
 
   const handleSubmit = (e) => {
@@ -49,23 +54,25 @@ function ShiftPopUp({ currDate, currCell, scheduleId, children }) {
             ) : (
               <h2>Edit Shift for {currDate}</h2>
             )}
-            <form onSubmit={handleSubmit}>
-              <label htmlFor="shift">Set Shift:</label>
+            <form className="shift-edit__form" onSubmit={handleSubmit}>
+              <Dropdown options={options} />
+
+              <label className="shift-edit__custom-checkbox" htmlFor="notify">
+                Notify via e-mail:
+                <input
+                  className="shift-edit__checkbox"
+                  type="checkbox"
+                  id="notify"
+                  name="notify"
+                />
+                <span className="shift-edit__checkmark"></span>
+              </label>
+
               <input
-                type="text"
-                id="shift"
-                name="shift"
-                onChange={handleChange}
-                value={shift}
+                className="shift-edit__submit"
+                type="submit"
+                value="Submit"
               />
-
-              <label htmlFor="rest">Set as Rest Day</label>
-              <input type="checkbox" id="rest" name="rest" />
-
-              <label htmlFor="notify">Notify via e-mail:</label>
-              <input type="checkbox" id="notify" name="notify" />
-
-              <input type="submit" value="Submit" />
             </form>
           </div>
         </div>
