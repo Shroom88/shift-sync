@@ -5,10 +5,11 @@ import FirebaseContext from "../../FirebaseContext";
 import Dropdown from "../dropdown/Dropdown";
 import "./shift-pop-up.scss";
 
-function ShiftPopUp({ currDate, currCell, scheduleId, children }) {
+function ShiftPopUp({ currDate, currCell, scheduleId, children, currEmail }) {
   const { setShift, updateSchedule } = useContext(FirebaseContext);
 
   const [isOpen, setIsOpen] = useState(false);
+  const [sendMail, setSendMail] = useState(true);
 
   // TODO: add to a collection in firebase
   const options = [
@@ -27,9 +28,13 @@ function ShiftPopUp({ currDate, currCell, scheduleId, children }) {
     setIsOpen(false);
   };
 
+  const handleEmailChange = () => {
+    setSendMail(!sendMail);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    updateSchedule(scheduleId, currCell);
+    updateSchedule(scheduleId, currCell, currEmail, sendMail);
     setIsOpen(false);
   };
 
@@ -64,6 +69,8 @@ function ShiftPopUp({ currDate, currCell, scheduleId, children }) {
                   type="checkbox"
                   id="notify"
                   name="notify"
+                  onChange={handleEmailChange}
+                  checked={sendMail}
                 />
                 <span className="shift-edit__checkmark"></span>
               </label>

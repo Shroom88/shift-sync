@@ -63,6 +63,9 @@ function Shifts() {
                   currCell={weekdays[date.getDay()]}
                   currDate={date.toLocaleDateString(undefined, popupDateOpt)}
                   scheduleId={schedule.id}
+                  currEmail={userData
+                    .filter((user) => user.id === schedule.userId)
+                    .map((user) => user.name)}
                 >
                   {schedule[weekdays[date.getDay()]]}
                 </ShiftPopUp>

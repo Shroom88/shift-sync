@@ -150,11 +150,44 @@ export const FirebaseProvider = ({ children }) => {
       });
   };
 
-  const updateSchedule = async (scheduleId, field) => {
+  const handleSendEmail = (to, newShift) => {
+    const message = "test eho hihi" + newShift;
+
+    // Create a request payload
+    const payload = {
+      to: to,
+      subject: "test123",
+      message: message,
+    };
+
+    // Make a POST request to the Firebase Cloud Function endpoint
+    fetch("https://us-central1-shift-sync.cloudfunctions.net/sendEmail", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Email sent successfully!", data);
+        // Handle success or display a success message to the user
+      })
+      .catch((error) => {
+        console.error("Error sending email:", error);
+        // Handle error or display an error message to the user
+      });
+  };
+
+  const updateSchedule = async (scheduleId, field, userEmail, sendMail) => {
     try {
       const scheduleRef = db.collection("Schedules").doc(scheduleId);
       const updateSchedule = {};
       updateSchedule[field] = shift; //update the specific day in the schedule collection
+
+      if (sendMail) {
+        handleSendEmail(userEmail, field);
+      }
 
       await scheduleRef.update(updateSchedule);
     } catch (error) {
@@ -162,7 +195,7 @@ export const FirebaseProvider = ({ children }) => {
     }
   };
 
-  const handleLogout = (event) => {
+  const handleLogout = () => {
     setIsLoading(true);
     clearStates();
 
