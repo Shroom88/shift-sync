@@ -1,31 +1,27 @@
-const functions = require("firebase-functions");
-const sendEmail = require("./sendEmail");
-const cors = require("cors");
-
-// Configure CORS options
-const corsOptions = {
+/**
+ * Import function triggers from their respective submodules:
+ *
+ * const {onCall} = require("firebase-functions/v2/https");
+ * const {onDocumentWritten} = require("firebase-functions/v2/firestore");
+ *
+ * See a full list of supported triggers at https://firebase.google.com/docs/functions
+ */
+/* eslint-disable */
+const { onRequest } = require("firebase-functions/v2/https");
+const logger = require("firebase-functions/logger");
+const cors = require("cors", {
   origin: true,
   methods: ["POST"],
   allowedHeaders: ["Content-Type"],
-};
+});
 
-// Define Firebase Cloud Function
-exports.sendEmail = functions.https.onRequest((req, res) => {
-  cors(corsOptions)(req, res, () => {
-    // Get email parameters from the request body
-    const { to, subject, message } = req.body;
+// Create and deploy your first functions
+// https://firebase.google.com/docs/functions/get-started
 
-    // Call the sendEmail function
-    sendEmail(to, subject, message)
-      .then(() => {
-        // Send success response
-        res.status(200).send("Email sent successfully!");
-      })
-      .catch((error) => {
-        console.error("Error sending email:", error);
-
-        // Send error response
-        res.status(500).send("Error sending email");
-      });
+exports.helloWorld = onRequest((request, response) => {
+  cors()(req, res, () => {
+    logger.info("Hello logs!", { structuredData: true });
+    console.log(request);
+    response.send("Hello from Firebase!");
   });
 });

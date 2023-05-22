@@ -1,6 +1,6 @@
 import React from "react";
 import "./header.scss";
-import Logo from "../../assets/logo-no-background.png";
+import Logo from "../../assets/logo.png";
 import { useContext } from "react";
 import FirebaseContext from "../../FirebaseContext";
 

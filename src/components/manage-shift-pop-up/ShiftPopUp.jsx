@@ -6,7 +6,7 @@ import Dropdown from "../dropdown/Dropdown";
 import "./shift-pop-up.scss";
 
 function ShiftPopUp({ currDate, currCell, scheduleId, children, currEmail }) {
-  const { setShift, updateSchedule } = useContext(FirebaseContext);
+  const { isAdmin, setShift, updateSchedule } = useContext(FirebaseContext);
 
   const [isOpen, setIsOpen] = useState(false);
   const [sendMail, setSendMail] = useState(true);
@@ -44,6 +44,7 @@ function ShiftPopUp({ currDate, currCell, scheduleId, children, currEmail }) {
         className="shift-edit__shift-btn"
         data-shift={children}
         onClick={handleOpen}
+        disabled={!isAdmin}
       >
         {children}
       </button>

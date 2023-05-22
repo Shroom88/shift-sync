@@ -35,7 +35,10 @@ export const FirebaseProvider = ({ children }) => {
   const [userData, setUserData] = useState([]);
   const [schedules, setSchedules] = useState([]);
   const [register, setRegister] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [loggedSchedule, setLoggedSchedule] = useState({});
 
+  /* eslint-disable */
   useEffect(() => {
     if (user) {
       const unsubscribeUsers = db.collection("users").onSnapshot((snapshot) => {
@@ -43,7 +46,16 @@ export const FirebaseProvider = ({ children }) => {
           id: doc.id,
           ...doc.data(),
         }));
+
+        // items
         setUserData(documents);
+        const currentUserRole = documents
+          .filter((u) => u.email === user.email)
+          .map((user) => user.role)
+          .toString();
+
+        setIsAdmin(currentUserRole === "admin");
+        setIsLoading(false);
       });
 
       const unsubscribeSchedules = db
@@ -54,6 +66,15 @@ export const FirebaseProvider = ({ children }) => {
             ...doc.data(),
           }));
           setSchedules(documents);
+          setIsLoading(false);
+
+          if (user) {
+            const filteredSchedule = documents.filter(
+              (schedule) => schedule.userId === user.uid
+            );
+            setLoggedSchedule(Object.assign({}, ...filteredSchedule));
+            setIsLoading(false);
+          }
         });
 
       return () => {
@@ -62,15 +83,14 @@ export const FirebaseProvider = ({ children }) => {
       };
     }
   }, [user]);
+  /* eslint-enable */
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         setUser(user);
-        setIsLoading(false);
       } else {
         setUser(null);
-        setIsLoading(false);
       }
     });
   }, []);
@@ -150,34 +170,35 @@ export const FirebaseProvider = ({ children }) => {
       });
   };
 
-  const handleSendEmail = (to, newShift) => {
-    const message = "test eho hihi" + newShift;
+  // const handleSendEmail = (to, newShift) => {
+  //   const message = "test eho hihi" + newShift;
 
-    // Create a request payload
-    const payload = {
-      to: to,
-      subject: "test123",
-      message: message,
-    };
+  //   // Create a request payload
+  //   const payload = {
+  //     to: to,
+  //     subject: "test123",
+  //     message: message,
+  //   };
 
-    // Make a POST request to the Firebase Cloud Function endpoint
-    fetch("https://us-central1-shift-sync.cloudfunctions.net/sendEmail", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Email sent successfully!", data);
-        // Handle success or display a success message to the user
-      })
-      .catch((error) => {
-        console.error("Error sending email:", error);
-        // Handle error or display an error message to the user
-      });
-  };
+  //   // Make a POST request to the Firebase Cloud Function endpoint
+  //   fetch("https://helloworld-bw2gjdd3aa-uc.a.run.app")
+  //     .then((response) => {
+  //       if (response.ok) {
+  //         console.log("Test");
+  //         // Handle success or display a success message to the user
+  //       } else {
+  //         throw new Error("Error");
+  //       }
+  //     })
+  //     .then((data) => {
+  //       console.log("Email sent successfully!", data);
+  //       // Handle success or display a success message to the user
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error sending email:", error);
+  //       // Handle error or display an error message to the user
+  //     });
+  // };
 
   const updateSchedule = async (scheduleId, field, userEmail, sendMail) => {
     try {
@@ -185,9 +206,9 @@ export const FirebaseProvider = ({ children }) => {
       const updateSchedule = {};
       updateSchedule[field] = shift; //update the specific day in the schedule collection
 
-      if (sendMail) {
-        handleSendEmail(userEmail, field);
-      }
+      // if (sendMail) {
+      //   handleSendEmail(userEmail, "test");
+      // }
 
       await scheduleRef.update(updateSchedule);
     } catch (error) {
@@ -225,6 +246,7 @@ export const FirebaseProvider = ({ children }) => {
       value={{
         userData,
         schedules,
+        loggedSchedule,
         fullName,
         email,
         password,
@@ -232,6 +254,7 @@ export const FirebaseProvider = ({ children }) => {
         error,
         user,
         isLoading,
+        isAdmin,
         register,
         setRegister,
         setFullName,

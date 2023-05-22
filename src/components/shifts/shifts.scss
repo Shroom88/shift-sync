@@ -14,11 +14,15 @@
     display: flex;
     flex-direction: row;
     border-bottom: 1px solid $theme-color-third;
+
+    &--user {
+      height: 250px;
+    }
   }
 
   &__col {
     flex: 1;
-    background-color: #ccc;
+    background-color: $theme-color-user-cell;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -28,7 +32,11 @@
     text-align: center;
 
     &--user {
-      padding: 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2.3rem;
+      font-weight: 700;
     }
 
     &--header {
@@ -44,5 +52,15 @@
 
   &__btn {
     @include btn-hover;
+
+    position: relative;
+    left: 50%;
+    width: 300px;
+    transform: translateX(-50%);
+    background-color: $theme-color-primary;
+
+    &:hover {
+      background-color: $theme-color-third;
+    }
   }
 }
