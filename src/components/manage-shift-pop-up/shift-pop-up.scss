@@ -13,13 +13,28 @@
     font-weight: 700;
 
     &[data-shift="Rest Day"] {
-      background-color: #272727;
+      background-color: #108016;
       color: #ffffff;
     }
 
     &[data-shift="No Data"] {
       background-color: $theme-color-shift-error-btn;
       font-weight: bold;
+    }
+
+    &[data-shift="18:00 - 00:00"] {
+      background-color: #013170;
+      color: #ffffff;
+    }
+
+    &[data-shift="08:00 - 18:00"] {
+      background-color: #8ea701;
+      color: #ffffff;
+    }
+
+    &[data-shift="00:00 - 08:00"] {
+      background-color: #272727;
+      color: #ffffff;
     }
 
     &:disabled {

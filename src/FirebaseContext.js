@@ -1,6 +1,7 @@
 import { createContext } from "react";
 import React, { useState, useEffect } from "react";
 import firebase from "firebase/compat/app";
+import { toast } from "react-toastify";
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
 
@@ -27,7 +28,6 @@ const FirebaseContext = createContext();
 export const FirebaseProvider = ({ children }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const [fullName, setFullName] = useState("");
   const [shift, setShift] = useState("No Data");
   const [user, setUser] = useState(null);
@@ -40,6 +40,8 @@ export const FirebaseProvider = ({ children }) => {
 
   /* eslint-disable */
   useEffect(() => {
+    setIsLoading(true);
+
     if (user) {
       const unsubscribeUsers = db.collection("users").onSnapshot((snapshot) => {
         const documents = snapshot.docs.map((doc) => ({
@@ -66,15 +68,12 @@ export const FirebaseProvider = ({ children }) => {
             ...doc.data(),
           }));
           setSchedules(documents);
-          setIsLoading(false);
 
-          if (user) {
-            const filteredSchedule = documents.filter(
-              (schedule) => schedule.userId === user.uid
-            );
-            setLoggedSchedule(Object.assign({}, ...filteredSchedule));
-            setIsLoading(false);
-          }
+          const filteredSchedule = documents.filter(
+            (schedule) => schedule.userId === user.uid
+          );
+          setLoggedSchedule(Object.assign({}, ...filteredSchedule));
+          setIsLoading(false);
         });
 
       return () => {
@@ -82,15 +81,19 @@ export const FirebaseProvider = ({ children }) => {
         unsubscribeSchedules();
       };
     }
+    setIsLoading(false);
   }, [user]);
   /* eslint-enable */
 
   useEffect(() => {
+    setIsLoading(true);
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         setUser(user);
+        setIsLoading(false);
       } else {
         setUser(null);
+        setIsLoading(false);
       }
     });
   }, []);
@@ -116,13 +119,12 @@ export const FirebaseProvider = ({ children }) => {
       .signInWithEmailAndPassword(email, password)
       .then(() => {
         setIsLoading(false);
+        toast.success("Login Successfull, welcome!");
       })
       .catch((error) => {
-        setError(error.message);
-        console.log("login");
+        toast.error(error.message);
         setIsLoading(false);
       });
-    console.log(error);
   };
 
   const handleRegister = (event) => {
@@ -164,8 +166,9 @@ export const FirebaseProvider = ({ children }) => {
           userId: user.uid,
         });
       })
+      .then(() => toast.success("User successfuly registered."))
       .catch((error) => {
-        setError(error.message);
+        toast.error(error.message);
         setIsLoading(false);
       });
   };
@@ -210,9 +213,12 @@ export const FirebaseProvider = ({ children }) => {
       //   handleSendEmail(userEmail, "test");
       // }
 
-      await scheduleRef.update(updateSchedule);
+      await scheduleRef
+        .update(updateSchedule)
+        .then(() => toast.success("Shift successfuly updated."));
     } catch (error) {
       console.log(error);
+      toast.error("An error ocurred.");
     }
   };
 
@@ -225,10 +231,10 @@ export const FirebaseProvider = ({ children }) => {
       .signOut()
       .then(() => {
         setIsLoading(false);
+        toast.success("Come back soon!");
       })
       .catch((error) => {
-        setError(error.message);
-        console.log("logout");
+        toast.error(error.message);
         setIsLoading(false);
       });
   };
@@ -237,7 +243,6 @@ export const FirebaseProvider = ({ children }) => {
     setEmail("");
     setFullName("");
     setPassword("");
-    setError("");
     setRegister(false);
   };
 
@@ -251,7 +256,6 @@ export const FirebaseProvider = ({ children }) => {
         email,
         password,
         shift,
-        error,
         user,
         isLoading,
         isAdmin,

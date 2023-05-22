@@ -9,7 +9,6 @@ function Register({ handleLogInSwitch }) {
     fullName,
     email,
     password,
-    error,
     handleFullNameChange,
     handleEmailChange,
     handlePasswordChange,
@@ -43,7 +42,6 @@ function Register({ handleLogInSwitch }) {
           placeholder="Password"
           onChange={handlePasswordChange}
         />
-        {error && <div className="login__error">{error}</div>}
 
         <button className="login__btn" type="submit">
           Register

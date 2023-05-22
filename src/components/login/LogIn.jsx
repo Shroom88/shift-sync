@@ -11,7 +11,6 @@ const LogIn = () => {
     register,
     setRegister,
     isLoading,
-    error,
     handleEmailChange,
     handlePasswordChange,
     handleLogin,
@@ -55,7 +54,6 @@ const LogIn = () => {
               placeholder="Password"
               onChange={handlePasswordChange}
             />
-            {error && <div className="login__error">{error}</div>}
 
             <button className="login__btn" type="submit">
               Login
