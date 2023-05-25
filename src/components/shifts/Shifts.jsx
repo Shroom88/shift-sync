@@ -4,6 +4,7 @@ import FirebaseContext from "../../FirebaseContext";
 import LogIn from "../login/LogIn";
 import Loader from "../loader/Loader";
 import ShiftPopUp from "../manage-shift-pop-up/ShiftPopUp";
+import RequestPopup from "../request-shift-pop-up/RequestPopup";
 import "./shifts.scss";
 
 function Shifts() {
@@ -109,7 +110,7 @@ function Shifts() {
           </div>
         )}
       </div>
-      {!isAdmin && <button className="shifts__btn">Request Time Off</button>}
+      {!isAdmin && <RequestPopup />}
     </div>
   ) : (
     <LogIn />

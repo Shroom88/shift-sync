@@ -1,9 +1,17 @@
 import React from "react";
+import { useContext } from "react";
+import FirebaseContext from "../../FirebaseContext";
 import "./footer.scss";
 
 function Footer() {
+  const { isAdmin } = useContext(FirebaseContext);
   return (
     <div className="footer">
+      {isAdmin && (
+        <a href="/requests" className="footer__btn">
+          View Schedule Requests
+        </a>
+      )}
       <h3 className="footer__text">&copy; 2023 Gabriel Stanev</h3>
       <div className="footer__cube"></div>
 

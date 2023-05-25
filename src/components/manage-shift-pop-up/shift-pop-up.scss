@@ -1,5 +1,6 @@
 @import "../../styles/mixins";
 @import "../../styles/variables";
+@import url("https://fonts.googleapis.com/css2?family=Hind&display=swap");
 
 .shift-edit {
   height: 100%;
@@ -61,6 +62,11 @@
     border: 2px solid $theme-color-secondary;
   }
 
+  &__header {
+    font-size: 2rem;
+    text-align: center;
+  }
+
   &__form {
     display: flex;
     justify-content: center;
@@ -68,12 +74,24 @@
     flex-direction: column;
   }
 
+  &__label {
+    font-size: 1.3rem;
+  }
+
+  &__textarea {
+    width: 100%;
+    font-size: 1.5rem;
+    font-family: "Hind";
+    border: 0;
+    margin-bottom: 5px;
+  }
+
   &__custom-checkbox {
     position: relative;
     padding-right: 25px;
     margin-bottom: 12px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 1.6rem;
   }
 
   &__checkbox {
@@ -113,7 +131,7 @@
   }
 
   .shift-edit__checkbox:checked ~ .shift-edit__checkmark {
-    background-color: $theme-color-primary; /* Green color */
+    background-color: $theme-color-primary;
   }
 
   .shift-edit__checkbox:checked ~ .shift-edit__checkmark::after {

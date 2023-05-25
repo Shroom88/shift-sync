@@ -4,10 +4,11 @@ import { useContext } from "react";
 import FirebaseContext from "../../FirebaseContext";
 import "./dropdown.scss";
 
-function Dropdown({ options }) {
+function Dropdown({ options, defaultSelect, about }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [value, setValue] = useState("");
 
-  const { shift, setShift } = useContext(FirebaseContext);
+  const { setShift, setWeekday } = useContext(FirebaseContext);
 
   const toggleDropdown = () => {
     isOpen ? setIsOpen(false) : setIsOpen(true);
@@ -15,13 +16,26 @@ function Dropdown({ options }) {
 
   const handleOptionClick = (option) => {
     setIsOpen(false);
-    setShift(option.value);
+    setValue(option.value);
+
+    switch (about) {
+      case "shift":
+        setShift(option.value);
+        break;
+
+      case "weekday":
+        setWeekday(option.value);
+        break;
+
+      default:
+        break;
+    }
   };
 
   return (
     <div className="dropdown">
       <div className="dropdown__header" onClick={toggleDropdown}>
-        {shift !== "No Data" ? shift : "Select a Shift"}
+        {value === "" ? defaultSelect : value}
       </div>
       {isOpen && (
         <ul className="dropdown__options">

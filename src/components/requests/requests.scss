@@ -1,0 +1,93 @@
+@import "../../styles/mixins";
+@import "../../styles/variables";
+
+.requests {
+  display: flex;
+  justify-content: center;
+  //   background-color: $theme-color-secondary;
+
+  &__header {
+    font-size: 3rem;
+    text-align: center;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    padding: 0;
+    background-color: $theme-color-third;
+    border: 2px solid #000;
+    border-bottom: 0;
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    border-bottom: 2px solid #000;
+  }
+
+  &__cell {
+    margin: 0;
+    padding: 8px 12px;
+    font-size: 1.2rem;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: 2rem;
+    padding: 8px 12px;
+  }
+
+  &__delete {
+    padding: 8px 16px;
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $theme-color-shift-error-btn;
+    }
+  }
+
+  &__icon {
+    width: 16px;
+  }
+
+  &__anchor {
+    @include btn-hover;
+
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: $theme-color-third;
+  }
+}
+
+#react-confirm-alert {
+  .react-confirm-alert-overlay {
+    background-color: $theme-color-overlay;
+
+    .react-confirm-alert-body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border-radius: 0;
+      background-color: $theme-color-third;
+      color: #000;
+
+      .react-confirm-alert-button-group {
+        justify-content: center;
+      }
+    }
+  }
+}

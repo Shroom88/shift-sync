@@ -30,10 +30,12 @@ export const FirebaseProvider = ({ children }) => {
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [shift, setShift] = useState("No Data");
+  const [weekday, setWeekday] = useState("");
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [userData, setUserData] = useState([]);
   const [schedules, setSchedules] = useState([]);
+  const [requests, setRequests] = useState([]);
   const [register, setRegister] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [loggedSchedule, setLoggedSchedule] = useState({});
@@ -76,9 +78,21 @@ export const FirebaseProvider = ({ children }) => {
           setIsLoading(false);
         });
 
+      const unsubscribeRequests = db
+        .collection("Requests")
+        .onSnapshot((snapshot) => {
+          const documents = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
+          setRequests(documents);
+          setIsLoading(false);
+        });
+
       return () => {
         unsubscribeUsers();
         unsubscribeSchedules();
+        unsubscribeRequests();
       };
     }
     setIsLoading(false);
@@ -173,35 +187,33 @@ export const FirebaseProvider = ({ children }) => {
       });
   };
 
-  // const handleSendEmail = (to, newShift) => {
-  //   const message = "test eho hihi" + newShift;
+  const addShiftRequest = async (request) => {
+    try {
+      // Create a reference to the collection
+      const collectionRef = db.collection("Requests");
 
-  //   // Create a request payload
-  //   const payload = {
-  //     to: to,
-  //     subject: "test123",
-  //     message: message,
-  //   };
+      // Add the new request to the collection
+      await collectionRef.add(request);
+      toast.success("Request added successfully!");
+    } catch (error) {
+      toast.error("Error adding item.");
+    }
+  };
 
-  //   // Make a POST request to the Firebase Cloud Function endpoint
-  //   fetch("https://helloworld-bw2gjdd3aa-uc.a.run.app")
-  //     .then((response) => {
-  //       if (response.ok) {
-  //         console.log("Test");
-  //         // Handle success or display a success message to the user
-  //       } else {
-  //         throw new Error("Error");
-  //       }
-  //     })
-  //     .then((data) => {
-  //       console.log("Email sent successfully!", data);
-  //       // Handle success or display a success message to the user
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error sending email:", error);
-  //       // Handle error or display an error message to the user
-  //     });
-  // };
+  const deleteShiftRequest = async (requestId) => {
+    try {
+      // Create a reference to the document in the collection
+      const documentRef = db.collection("Requests").doc(requestId);
+
+      // Delete the document
+      await documentRef
+        .delete()
+        .then(() => toast.success("Item deleted successfully!"));
+    } catch (error) {
+      toast.error("Error deleting item:");
+      console.log(error);
+    }
+  };
 
   const updateSchedule = async (scheduleId, field, userEmail, sendMail) => {
     try {
@@ -251,11 +263,13 @@ export const FirebaseProvider = ({ children }) => {
       value={{
         userData,
         schedules,
+        requests,
         loggedSchedule,
         fullName,
         email,
         password,
         shift,
+        weekday,
         user,
         isLoading,
         isAdmin,
@@ -265,6 +279,7 @@ export const FirebaseProvider = ({ children }) => {
         setEmail,
         setPassword,
         setShift,
+        setWeekday,
         handleFullNameChange,
         handleEmailChange,
         handlePasswordChange,
@@ -272,6 +287,8 @@ export const FirebaseProvider = ({ children }) => {
         handleRegister,
         handleLogout,
         updateSchedule,
+        addShiftRequest,
+        deleteShiftRequest,
         clearStates,
       }}
     >

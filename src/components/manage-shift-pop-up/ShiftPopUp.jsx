@@ -56,12 +56,16 @@ function ShiftPopUp({ currDate, currCell, scheduleId, children, currEmail }) {
               &times;
             </button>
             {children === "No Data" ? (
-              <h2>Set Shift for {currDate}</h2>
+              <h2 className="shift-edit__header">Set Shift for {currDate}</h2>
             ) : (
-              <h2>Edit Shift for {currDate}</h2>
+              <h2 className="shift-edit__header">Edit Shift for {currDate}</h2>
             )}
             <form className="shift-edit__form" onSubmit={handleSubmit}>
-              <Dropdown options={options} />
+              <Dropdown
+                options={options}
+                defaultSelect="Select a shift"
+                about="shift"
+              />
 
               <label className="shift-edit__custom-checkbox" htmlFor="notify">
                 Notify via e-mail:

@@ -1,10 +1,13 @@
 @import "./styles/variables";
 
+@import url("https://fonts.googleapis.com/css2?family=Hind&display=swap");
+
 * {
   box-sizing: border-box;
 }
 
 html {
+  font-family: Hind, sans-serif;
   font-size: 10px;
   background-color: $theme-color-primary;
 }
