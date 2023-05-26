@@ -38,6 +38,7 @@ export const FirebaseProvider = ({ children }) => {
   const [requests, setRequests] = useState([]);
   const [register, setRegister] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isOwner, setIsOwner] = useState(false);
   const [loggedSchedule, setLoggedSchedule] = useState({});
 
   /* eslint-disable */
@@ -58,7 +59,8 @@ export const FirebaseProvider = ({ children }) => {
           .map((user) => user.role)
           .toString();
 
-        setIsAdmin(currentUserRole === "admin");
+        setIsAdmin(currentUserRole === "admin" || currentUserRole === "owner");
+        setIsOwner(currentUserRole === "owner");
         setIsLoading(false);
       });
 
@@ -200,6 +202,23 @@ export const FirebaseProvider = ({ children }) => {
     }
   };
 
+  const updateRole = async (userId, role) => {
+    try {
+      const docRef = db.collection("users").doc(userId);
+      await docRef.update({
+        role: role,
+      });
+      toast.success(
+        `User ${
+          role === "admin" ? "promoted to Admin" : "demoted to user"
+        } successfully!`
+      );
+    } catch (error) {
+      toast("Oops, an error has occurred.");
+      console.log(error);
+    }
+  };
+
   const deleteShiftRequest = async (requestId) => {
     try {
       // Create a reference to the document in the collection
@@ -243,7 +262,7 @@ export const FirebaseProvider = ({ children }) => {
       .signOut()
       .then(() => {
         setIsLoading(false);
-        toast.success("Come back soon!");
+        toast("Come back soon!");
       })
       .catch((error) => {
         toast.error(error.message);
@@ -256,6 +275,8 @@ export const FirebaseProvider = ({ children }) => {
     setFullName("");
     setPassword("");
     setRegister(false);
+    setIsAdmin(false);
+    setIsOwner(false);
   };
 
   return (
@@ -273,6 +294,7 @@ export const FirebaseProvider = ({ children }) => {
         user,
         isLoading,
         isAdmin,
+        isOwner,
         register,
         setRegister,
         setFullName,
@@ -289,6 +311,7 @@ export const FirebaseProvider = ({ children }) => {
         updateSchedule,
         addShiftRequest,
         deleteShiftRequest,
+        updateRole,
         clearStates,
       }}
     >

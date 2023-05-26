@@ -8,8 +8,8 @@ function Footer() {
   return (
     <div className="footer">
       {isAdmin && (
-        <a href="/requests" className="footer__btn">
-          View Schedule Requests
+        <a href="/admin-panel" className="footer__btn">
+          Admin Panel
         </a>
       )}
       <h3 className="footer__text">&copy; 2023 Gabriel Stanev</h3>

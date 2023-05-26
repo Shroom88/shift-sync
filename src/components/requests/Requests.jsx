@@ -1,14 +1,12 @@
 import React from "react";
 import { useContext } from "react";
 import FirebaseContext from "../../FirebaseContext";
-import Loader from "../loader/Loader";
 import Trash from "../../assets/trash-icon.svg";
 import { confirmAlert } from "react-confirm-alert";
-import "react-confirm-alert/src/react-confirm-alert.css";
-import "./requests.scss";
+import "../admin-panel/admin-tables.scss";
 
 function Requests() {
-  const { requests, userData, isLoading, isAdmin, deleteShiftRequest } =
+  const { requests, userData, deleteShiftRequest } =
     useContext(FirebaseContext);
 
   const handleDelete = (requestId) => {
@@ -30,61 +28,43 @@ function Requests() {
   };
 
   return (
-    <div className="container">
-      <div className="requests">
-        {isLoading ? (
-          <Loader />
-        ) : isAdmin ? (
-          requests.length === 0 ? (
-            <div className="">
-              <h1 className="requests__header">No New Requests</h1>
-            </div>
-          ) : (
-            <div className="">
-              <h1 className="requests__header">Requests</h1>
-              <ul className="requests__list">
-                <li className="requests__item">
-                  <h2 className="requests__title">User Email</h2>
-                  <h2 className="requests__title">Weekday</h2>
-                  <h2 className="requests__title">Reason</h2>
-                  <h2 className="requests__title">Delete</h2>
-                </li>
-                {requests.map((request) => (
-                  <li className="requests__item" key={request.id}>
-                    <p className="requests__cell">
-                      {userData
-                        .filter((user) => user.id === request.userId)
-                        .map((user) => user.email)}
-                    </p>
-                    <p className="requests__cell">{request.weekday}</p>
-                    <p className="requests__cell">{request.request}</p>
-                    <button
-                      className="requests__delete"
-                      onClick={() => handleDelete(request.id)}
-                    >
-                      <img
-                        className="requests__icon"
-                        src={Trash}
-                        alt="trash icon"
-                      />
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )
-        ) : (
-          <div className="">
-            <h1 className="requests__header">
-              No do not have any permissions!
-            </h1>
-          </div>
-        )}
-      </div>
-
-      <a className="requests__anchor" href="/">
-        Back
-      </a>
+    <div className="admin-tables">
+      {requests.length === 0 ? (
+        <h1 className="admin-tables__header">No New Requests</h1>
+      ) : (
+        <div className="admin-tables__wrapper">
+          <h1 className="admin-tables__header">Requests</h1>
+          <ul className="admin-tables__list">
+            <li className="admin-tables__item">
+              <h2 className="admin-tables__title">User Email</h2>
+              <h2 className="admin-tables__title">Weekday</h2>
+              <h2 className="admin-tables__title">Reason</h2>
+              <h2 className="admin-tables__title">Delete</h2>
+            </li>
+            {requests.map((request) => (
+              <li className="admin-tables__item" key={request.id}>
+                <p className="admin-tables__cell">
+                  {userData
+                    .filter((user) => user.id === request.userId)
+                    .map((user) => user.email)}
+                </p>
+                <p className="admin-tables__cell">{request.weekday}</p>
+                <p className="admin-tables__cell">{request.request}</p>
+                <button
+                  className="admin-tables__delete"
+                  onClick={() => handleDelete(request.id)}
+                >
+                  <img
+                    className="admin-tables__icon"
+                    src={Trash}
+                    alt="trash icon"
+                  />
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }

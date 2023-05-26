@@ -5,7 +5,8 @@ import { FirebaseProvider } from "./FirebaseContext";
 
 import "./index.scss";
 import App from "./App";
-import Requests from "./components/requests/Requests";
+import AdminPanel from "./components/admin-panel/AdminPanel";
+import "react-confirm-alert/src/react-confirm-alert.css";
 
 const router = createBrowserRouter([
   {
@@ -13,8 +14,8 @@ const router = createBrowserRouter([
     element: <App />,
   },
   {
-    path: "/requests",
-    element: <Requests />,
+    path: "/admin-panel",
+    element: <AdminPanel />,
   },
 ]);
 
