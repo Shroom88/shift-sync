@@ -12,13 +12,13 @@ function RequestPopup() {
   const [textInput, setTextInput] = useState("");
 
   const options = [
-    { value: "Monday", label: "monday" },
-    { value: "Tuesday", label: "tuesday" },
-    { value: "Wednesday", label: "wednesday" },
-    { value: "Thursday", label: "thursday" },
-    { value: "Friday", label: "friday" },
-    { value: "Saturday", label: "saturday" },
-    { value: "Sunday", label: "sunday" },
+    { value: "Monday", label: "Monday" },
+    { value: "Tuesday", label: "Tuesday" },
+    { value: "Wednesday", label: "Wednesday" },
+    { value: "Thursday", label: "Thursday" },
+    { value: "Friday", label: "Friday" },
+    { value: "Saturday", label: "Saturday" },
+    { value: "Sunday", label: "Sunday" },
   ];
 
   const togglePopUp = () => {
@@ -27,7 +27,6 @@ function RequestPopup() {
 
   const handleTextArea = (e) => {
     setTextInput(e.target.value);
-    console.log(textInput);
   };
 
   const handleSubmit = (e) => {
@@ -38,7 +37,6 @@ function RequestPopup() {
       request: textInput,
     };
     addShiftRequest(request);
-    console.log(request);
     setIsOpen(false);
   };
   return (
@@ -67,6 +65,7 @@ function RequestPopup() {
                 className="shift-edit__textarea"
                 rows="5"
                 onChange={handleTextArea}
+                required
               ></textarea>
 
               <input

@@ -1,18 +1,19 @@
 import { createContext } from "react";
 import React, { useState, useEffect } from "react";
-import firebase from "firebase/compat/app";
 import { toast } from "react-toastify";
+import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
+import "firebase/compat/functions";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBz22nAeKc_E2XWeem5UUbnu5KSSBzYpoA",
-  authDomain: "shift-sync.firebaseapp.com",
-  projectId: "shift-sync",
-  storageBucket: "shift-sync.appspot.com",
-  messagingSenderId: "141396690875",
-  appId: "1:141396690875:web:3c5999d8d11329936be69e",
-  measurementId: "G-XN7TY3BTH6",
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -26,6 +27,7 @@ if (!firebase.apps.length) {
 const FirebaseContext = createContext();
 
 export const FirebaseProvider = ({ children }) => {
+  const [error, setError] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
@@ -119,7 +121,13 @@ export const FirebaseProvider = ({ children }) => {
   };
 
   const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
+    const password = event.target.value;
+    if (password.length < 6) {
+      setError("Password must be at least 6 symbols!");
+    } else {
+      setError("");
+    }
+    setPassword(password);
   };
 
   const handleFullNameChange = (e) => {
@@ -156,13 +164,13 @@ export const FirebaseProvider = ({ children }) => {
         const defaultRole = "user";
 
         const defaultSchedules = {
-          Mon: "No Data",
-          Tue: "No Data",
-          Wed: "No Data",
-          Thu: "No Data",
-          Fri: "No Data",
-          Sat: "No Data",
-          Sun: "No Data",
+          Mon: "10:00 - 18:00",
+          Tue: "00:00 - 08:00",
+          Wed: "10:00 - 18:00",
+          Thu: "10:00 - 18:00",
+          Fri: "18:00 - 00:00",
+          Sat: "Rest Day",
+          Sun: "Rest Day",
         };
 
         db.collection("users").doc(user.uid).set({
@@ -193,6 +201,22 @@ export const FirebaseProvider = ({ children }) => {
     try {
       // Create a reference to the collection
       const collectionRef = db.collection("Requests");
+
+      const employee = userData
+        .filter((user) => user.id === request.userId)
+        .map((u) => u.name)
+        .toString();
+
+      const subject = "ShiftSync: An employee has sent a request";
+      const text = `Employee ${employee} has requested a change in his schedule for ${request.weekday}:\n\n${request.request}`;
+
+      const adminMails = userData
+        .filter((user) => user.role === "admin" || user.role === "owner")
+        .map((u) => u.email);
+
+      adminMails.forEach((admin) => {
+        handleSendEmail({ to: admin, subject: subject, text: text });
+      });
 
       // Add the new request to the collection
       await collectionRef.add(request);
@@ -234,15 +258,41 @@ export const FirebaseProvider = ({ children }) => {
     }
   };
 
-  const updateSchedule = async (scheduleId, field, userEmail, sendMail) => {
+  const handleSendEmail = async (mailData) => {
+    const sendMail = firebase.functions().httpsCallable("sendEmail");
+
+    await sendMail(mailData)
+      .then(() => {})
+      .catch((error) => {
+        console.error("Error sending email:", error);
+      });
+  };
+
+  const updateSchedule = async (
+    scheduleId,
+    currCell,
+    currDate,
+    isMailSent,
+    userEmail
+  ) => {
     try {
       const scheduleRef = db.collection("Schedules").doc(scheduleId);
       const updateSchedule = {};
-      updateSchedule[field] = shift; //update the specific day in the schedule collection
+      updateSchedule[currCell] = shift; //update the specific day in the schedule collection
 
-      // if (sendMail) {
-      //   handleSendEmail(userEmail, "test");
-      // }
+      if (isMailSent) {
+        const username = userData
+          .filter((user) => user.email === userEmail)
+          .map((user) => user.name);
+        const subject =
+          "Notification from ShiftSync: Your schedule has been changed.";
+        const content = `Hey, ${username}\nYour schedule for ${currDate} has been changed to ${shift}!`;
+        handleSendEmail({
+          to: userEmail,
+          subject: subject,
+          text: content,
+        }).then(() => toast.success("Email sent successfuly!"));
+      }
 
       await scheduleRef
         .update(updateSchedule)
@@ -271,6 +321,7 @@ export const FirebaseProvider = ({ children }) => {
   };
 
   const clearStates = () => {
+    setError("");
     setEmail("");
     setFullName("");
     setPassword("");
@@ -287,6 +338,7 @@ export const FirebaseProvider = ({ children }) => {
         requests,
         loggedSchedule,
         fullName,
+        error,
         email,
         password,
         shift,

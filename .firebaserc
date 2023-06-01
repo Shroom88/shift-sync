@@ -1,5 +1,9 @@
 {
   "projects": {
-    "default": "shift-sync"
-  }
+    "default": "shift-sync",
+    "develop": "shift-sync",
+    "staging": "shift-sync"
+  },
+  "targets": {},
+  "etags": {}
 }

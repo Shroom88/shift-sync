@@ -68,8 +68,8 @@ function Shifts() {
                     currDate={date.toLocaleDateString(undefined, popupDateOpt)}
                     scheduleId={schedule.id}
                     currEmail={userData
-                      .filter((user) => user.id === schedule.userId)
-                      .map((user) => user.email)
+                      .filter((u) => u.id === schedule.userId)
+                      .map((u) => u.email)
                       .toString()}
                   >
                     {schedule[weekdays[date.getDay()]]}

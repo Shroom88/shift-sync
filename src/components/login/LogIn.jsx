@@ -6,6 +6,7 @@ import "./login.scss";
 
 const LogIn = () => {
   const {
+    error,
     email,
     password,
     register,
@@ -55,7 +56,13 @@ const LogIn = () => {
               onChange={handlePasswordChange}
             />
 
-            <button className="login__btn" type="submit">
+            {error && <span className="login__error">{error}</span>}
+
+            <button
+              disabled={error !== ""}
+              className="login__btn"
+              type="submit"
+            >
               Login
             </button>
           </form>

@@ -46,4 +46,10 @@
     width: 100%;
     max-width: 300px;
   }
+
+  &__error {
+    font-size: 1.4rem;
+    color: $theme-color-shift-error-btn;
+    font-weight: 600;
+  }
 }

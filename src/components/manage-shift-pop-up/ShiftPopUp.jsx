@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useContext } from "react";
 import FirebaseContext from "../../FirebaseContext";
 import Dropdown from "../dropdown/Dropdown";
+import PropTypes from "prop-types";
 import "./shift-pop-up.scss";
 
 function ShiftPopUp({ currDate, currCell, scheduleId, children, currEmail }) {
@@ -34,7 +35,7 @@ function ShiftPopUp({ currDate, currCell, scheduleId, children, currEmail }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    updateSchedule(scheduleId, currCell, currEmail, sendMail);
+    updateSchedule(scheduleId, currCell, currDate, sendMail, currEmail);
     setIsOpen(false);
   };
 
@@ -92,5 +93,12 @@ function ShiftPopUp({ currDate, currCell, scheduleId, children, currEmail }) {
     </div>
   );
 }
+
+ShiftPopUp.propTypes = {
+  currDate: PropTypes.string,
+  currCell: PropTypes.string,
+  scheduleId: PropTypes.string,
+  currEmail: PropTypes.string,
+};
 
 export default ShiftPopUp;

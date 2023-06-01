@@ -2,6 +2,8 @@ import React from "react";
 import { useState } from "react";
 import { useContext } from "react";
 import FirebaseContext from "../../FirebaseContext";
+import PropTypes from "prop-types";
+
 import "./dropdown.scss";
 
 function Dropdown({ options, defaultSelect, about }) {
@@ -54,5 +56,11 @@ function Dropdown({ options, defaultSelect, about }) {
     </div>
   );
 }
+
+Dropdown.propTypes = {
+  options: PropTypes.array,
+  defaultSelect: PropTypes.string,
+  about: PropTypes.string,
+};
 
 export default Dropdown;
