@@ -1,17 +1,9 @@
 import React from "react";
-import { useContext } from "react";
-import FirebaseContext from "../../FirebaseContext";
 import "./footer.scss";
 
 function Footer() {
-  const { isAdmin } = useContext(FirebaseContext);
   return (
     <div className="footer">
-      {isAdmin && (
-        <a href="/admin-panel" className="footer__btn">
-          Admin Panel
-        </a>
-      )}
       <h3 className="footer__text">&copy; 2023 Gabriel Stanev</h3>
       <div className="footer__cube"></div>
 

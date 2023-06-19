@@ -110,7 +110,7 @@ function Shifts() {
           </div>
         )}
       </div>
-      {!isAdmin && <RequestPopup />}
+      {!isAdmin && <RequestPopup className="shifts__btn" />}
     </div>
   ) : (
     <LogIn />

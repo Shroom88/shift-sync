@@ -3,9 +3,10 @@ import "./header.scss";
 import Logo from "../../assets/logo.png";
 import { useContext } from "react";
 import FirebaseContext from "../../FirebaseContext";
+import HamburgerMenu from "../hamburger/HamburgerMenu";
 
 function Header() {
-  const { user, userData, setRegister, handleLogout, isLoading, clearStates } =
+  const { user, userData, setRegister, isLoading, clearStates } =
     useContext(FirebaseContext);
 
   const handleLoginBtn = () => {
@@ -35,9 +36,7 @@ function Header() {
               .filter((u) => u.email === user.email)
               .map((user) => user.name)}
           </h1>
-          <button className="header__btn" onClick={handleLogout}>
-            Log Out
-          </button>
+          <HamburgerMenu />
         </div>
       ) : (
         <div>
