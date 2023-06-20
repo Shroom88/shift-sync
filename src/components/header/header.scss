@@ -14,36 +14,13 @@
   padding: 10px 20px;
   margin-bottom: 20px;
 
-  &__cube {
-    @include cube;
+  &__wrapper {
+    display: flex;
+    flex-direction: row;
 
-    left: 25%;
-    bottom: 9px;
-    animation: Rotation 10s infinite;
-  }
-
-  &__cube-2 {
-    @include cube;
-
-    right: 50%;
-    top: 9px;
-    animation: RotationReverse 7s infinite;
-  }
-
-  &__cube-3 {
-    @include cube;
-
-    border-color: $theme-color-secondary;
-    right: 35%;
-    animation: Rotation 5s infinite;
-  }
-
-  &__cube-4 {
-    @include cube;
-
-    border-color: $theme-color-secondary;
-    left: 41%;
-    animation: Rotation 9s infinite;
+    @media screen and (max-width: 500px) {
+      flex-direction: column;
+    }
   }
 
   &__logo {
@@ -67,6 +44,7 @@
     &:hover {
       background-color: $theme-color-primary;
       border-color: $theme-color-secondary;
+      z-index: 4;
     }
   }
 
@@ -81,25 +59,5 @@
     font-size: 2.2rem;
     border-top: 1px solid $theme-color-primary;
     border-bottom: 1px solid $theme-color-primary;
-  }
-}
-
-@keyframes Rotation {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes RotationReverse {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(-360deg);
   }
 }

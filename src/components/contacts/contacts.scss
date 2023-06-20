@@ -1,3 +1,70 @@
+@import "../../styles/variables";
+@import "../../styles/mixins";
+
 .contacts {
-  position: relative;
+  &__header {
+    background-color: $theme-color-secondary;
+    text-align: center;
+    font-size: 3.5rem;
+    border-bottom: 1px solid $theme-color-third;
+    margin: 0;
+    padding: 20px 0;
+  }
+
+  &__container {
+    height: 56vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+  }
+
+  &__card {
+    text-align: center;
+    padding: 50px 20px;
+    flex: 1;
+    max-width: 300px;
+    background-color: $theme-color-third;
+    border: 2px solid $theme-color-secondary;
+    transition: scale 0.4s ease-out;
+
+    &:hover {
+      scale: 1.1;
+    }
+  }
+
+  &__icon {
+    transition: fill 0.2s ease-in;
+
+    &:hover {
+      fill: $theme-color-secondary;
+      color: $theme-color-secondary;
+    }
+  }
+
+  &__head {
+    font-size: 2.5rem;
+  }
+
+  &__desc {
+    font-size: 1.5rem;
+  }
+
+  &__contact {
+    font-size: 1.3rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    border-top: 1px solid $theme-color-secondary;
+    border-bottom: 1px solid $theme-color-secondary;
+    padding: 2px 0;
+    word-break: break-all;
+  }
+
+  &__anchor {
+    @include btn-hover;
+
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
 }

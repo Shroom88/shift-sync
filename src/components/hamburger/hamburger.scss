@@ -41,6 +41,7 @@
     background-color: $theme-color-third;
     padding: 5px 32px;
     margin: 0;
+    user-select: none;
 
     &:hover {
       background-color: $theme-color-primary;

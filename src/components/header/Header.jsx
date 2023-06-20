@@ -22,10 +22,6 @@ function Header() {
   return (
     <div className="header">
       <img className="header__logo" src={Logo} alt="shiftsync logo" />
-      <div className="header__cube"></div>
-      <div className="header__cube-2"></div>
-      <div className="header__cube-3"></div>
-      <div className="header__cube-4"></div>
       {isLoading ? (
         <div></div>
       ) : user ? (
@@ -39,13 +35,16 @@ function Header() {
           <HamburgerMenu />
         </div>
       ) : (
-        <div>
+        <div className="header__wrapper">
           <button className="header__btn" onClick={handleLoginBtn}>
             Log In
           </button>
           <button className="header__btn" onClick={handleRegBtn}>
             Register
           </button>
+          <a href="/contacts" className="header__btn">
+            Contacts
+          </a>
         </div>
       )}
     </div>
