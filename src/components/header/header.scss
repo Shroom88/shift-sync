@@ -36,7 +36,6 @@
     @include btn-hover;
 
     border: 2px solid $theme-color-third;
-    font-family: "Hind";
     font-size: 1.7rem;
     background-color: $theme-color-third;
     padding: 5px 32px;
@@ -55,7 +54,6 @@
   }
 
   &__welcome {
-    font-family: "Hind";
     font-size: 2.2rem;
     border-top: 1px solid $theme-color-primary;
     border-bottom: 1px solid $theme-color-primary;

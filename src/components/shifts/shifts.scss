@@ -9,6 +9,8 @@
   flex-direction: column;
   width: 100%;
   border: 1px solid $theme-color-third;
+  flex: 1;
+  margin-bottom: 20px;
 
   &__row {
     display: flex;
@@ -58,6 +60,7 @@
     width: 300px;
     transform: translateX(-50%);
     background-color: $theme-color-primary;
+    // margin-bottom: 48px;
 
     &:hover {
       background-color: $theme-color-third;

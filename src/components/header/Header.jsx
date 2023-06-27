@@ -20,7 +20,7 @@ function Header() {
   };
 
   return (
-    <div className="header">
+    <header className="header">
       <img className="header__logo" src={Logo} alt="shiftsync logo" />
       {isLoading ? (
         <div></div>
@@ -47,7 +47,7 @@ function Header() {
           </a>
         </div>
       )}
-    </div>
+    </header>
   );
 }
 

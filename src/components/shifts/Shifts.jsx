@@ -34,7 +34,7 @@ function Shifts() {
   return isLoading ? (
     <Loader />
   ) : user ? (
-    <div>
+    <main>
       <div className="shifts container">
         <div className="shifts__row">
           <div className="shifts__col shifts__col--header">User</div>
@@ -111,7 +111,7 @@ function Shifts() {
         )}
       </div>
       {!isAdmin && <RequestPopup className="shifts__btn" />}
-    </div>
+    </main>
   ) : (
     <LogIn />
   );
