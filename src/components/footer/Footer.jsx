@@ -10,7 +10,7 @@ function Footer() {
         Independent product made for education purposes
       </h3>
 
-      <h3 className="footer__text">Version: 1.0</h3>
+      <h3 className="footer__text">Version: 1.7</h3>
     </footer>
   );
 }

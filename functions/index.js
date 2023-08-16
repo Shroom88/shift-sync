@@ -29,6 +29,8 @@ exports.sendEmail = functions.https.onCall(async (data, context) => {
     });
 });
 
+// TODO
+
 exports.deleteTrigger = functions.database
   .ref("/users")
   .onDelete((snapshot, context) => {
