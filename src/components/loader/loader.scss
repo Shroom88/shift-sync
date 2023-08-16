@@ -3,29 +3,43 @@
 
 .loader-container {
   position: absolute;
-  top: 130%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
-.loader {
+.custom-loader {
   width: 100px;
   height: 100px;
-  background-color: $theme-color-third;
-  border: 4px solid $theme-color-secondary;
+  display: grid;
+  border: 4px solid #0000;
   border-radius: 50%;
-  border-top: 1px solid $theme-color-primary;
-  animation: spin 1s linear infinite;
+  border-color: #d1d1d1 #0000;
+  animation: s6 1s infinite linear;
+
+  &::before,
+  &::after {
+    content: "";
+    grid-area: 1/1;
+    margin: 2px;
+    border: inherit;
+    border-radius: 50%;
+  }
+
+  &::before {
+    border-color: #6ab653 #0000;
+    animation: inherit;
+    animation-duration: 0.5s;
+    animation-direction: reverse;
+  }
+
+  &::after {
+    margin: 8px;
+  }
 }
 
-@keyframes spin {
-  0% {
-    transform: rotate(0deg) scale(1);
-  }
-  50% {
-    transform: rotate(180deg) scale(1.5);
-  }
+@keyframes s6 {
   100% {
-    transform: rotate(360deg) scale(1);
+    transform: rotate(1turn);
   }
 }

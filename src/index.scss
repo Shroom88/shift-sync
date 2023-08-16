@@ -7,15 +7,29 @@
 }
 
 html {
-  font-family: Hind, sans-serif;
+  font-family: "Hind", sans-serif;
   font-size: 10px;
   background-color: $theme-color-primary;
 }
 
 body {
+  height: 100%;
   margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
+main {
+  height: 100%;
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+footer {
   position: relative;
-  padding-bottom: 121px;
+  bottom: 0;
 }
 
 button {

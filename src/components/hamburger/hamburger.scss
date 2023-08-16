@@ -1,0 +1,63 @@
+@import "../../styles/variables";
+@import "../../styles/mixins";
+
+.hamburger {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+
+  &__line {
+    width: 100%;
+    height: 3px;
+    background-color: $theme-color-primary;
+    margin: 3px 0;
+    transition: transform 0.3s, opacity 0.3s;
+  }
+
+  &__menu {
+    position: absolute;
+    background-color: $theme-color-third;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    top: 66px;
+    right: -20px;
+    z-index: 1;
+  }
+
+  &__btn {
+    @include btn-hover;
+
+    border: 2px solid $theme-color-third;
+    width: 150px;
+    font-family: "Hind";
+    font-size: 1.5rem;
+    background-color: $theme-color-third;
+    padding: 5px 32px;
+    margin: 0;
+    user-select: none;
+
+    &:hover {
+      background-color: $theme-color-primary;
+      border-color: $theme-color-secondary;
+    }
+  }
+}
+
+.hamburger.open .hamburger__line:nth-child(1) {
+  transform: rotate(45deg) translate(6px, 5px);
+}
+
+.hamburger.open .hamburger__line:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.open .hamburger__line:nth-child(3) {
+  transform: rotate(-45deg) translate(8px, -6px);
+}

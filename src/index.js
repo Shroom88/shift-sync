@@ -6,6 +6,8 @@ import { FirebaseProvider } from "./FirebaseContext";
 import "./index.scss";
 import App from "./App";
 import AdminPanel from "./components/admin-panel/AdminPanel";
+import Contacts from "./components/contacts/Contacts";
+import NotFound from "./components/404/NotFound";
 import "react-confirm-alert/src/react-confirm-alert.css";
 
 const router = createBrowserRouter([
@@ -16,6 +18,14 @@ const router = createBrowserRouter([
   {
     path: "/admin-panel",
     element: <AdminPanel />,
+  },
+  {
+    path: "/contacts",
+    element: <Contacts />,
+  },
+  {
+    path: "*",
+    element: <NotFound />,
   },
 ]);
 

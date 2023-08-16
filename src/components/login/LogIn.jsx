@@ -66,7 +66,10 @@ const LogIn = () => {
               Login
             </button>
           </form>
-          <button className="login__btn" onClick={handleRegSwitch}>
+          <button
+            className="login__btn login__btn--register"
+            onClick={handleRegSwitch}
+          >
             No account? Register here
           </button>
           <br />

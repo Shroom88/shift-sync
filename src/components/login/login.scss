@@ -45,6 +45,10 @@
 
     width: 100%;
     max-width: 300px;
+
+    &--register {
+      margin-bottom: 25px;
+    }
   }
 
   &__error {

@@ -5,7 +5,7 @@ import { useContext } from "react";
 import FirebaseContext from "../../FirebaseContext";
 import "../manage-shift-pop-up/shift-pop-up.scss";
 
-function RequestPopup() {
+function RequestPopup({ className }) {
   const { user, addShiftRequest, weekday } = useContext(FirebaseContext);
 
   const [isOpen, setIsOpen] = useState(false);
@@ -41,8 +41,8 @@ function RequestPopup() {
   };
   return (
     <div>
-      <button onClick={togglePopUp} className="shifts__btn">
-        Request Time Off
+      <button onClick={togglePopUp} className={className}>
+        Request
       </button>
       {isOpen && (
         <div className="shift-edit__popup">
