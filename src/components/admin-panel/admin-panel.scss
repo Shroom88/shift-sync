@@ -17,6 +17,20 @@
     margin-bottom: 10px;
   }
 
+  &__average {
+    margin-bottom: 10px;
+    font-size: 3rem;
+    color: $theme-color-third;
+    text-align: center;
+  }
+
+  &__workdays {
+    color: $theme-color-shift-error-btn;
+    font-size: 4rem;
+    font-weight: 800;
+    text-decoration: underline;
+  }
+
   &__header-wrapper {
     width: 100%;
     display: flex;
