@@ -42,6 +42,7 @@ export const FirebaseProvider = ({ children }) => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isOwner, setIsOwner] = useState(false);
   const [loggedSchedule, setLoggedSchedule] = useState({});
+  const [averageWorkdays, setAverageWorkdays] = useState(0);
 
   /* eslint-disable */
   useEffect(() => {
@@ -261,11 +262,12 @@ export const FirebaseProvider = ({ children }) => {
   const handleSendEmail = async (mailData) => {
     const sendMail = firebase.functions().httpsCallable("sendEmail");
 
-    await sendMail(mailData)
-      .then(() => {})
-      .catch((error) => {
-        console.error("Error sending email:", error);
-      });
+    try {
+      await sendMail(mailData);
+      console.log("Email sent successfully");
+    } catch (error) {
+      console.error("Error sending email:", error);
+    }
   };
 
   const updateSchedule = async (
@@ -301,6 +303,27 @@ export const FirebaseProvider = ({ children }) => {
       console.log(error);
       toast.error("An error ocurred.");
     }
+  };
+
+  const getAverageWorkdays = () => {
+    const weekdays = schedules.map((schedule) => {
+      const { id, userId, ...shifts } = schedule;
+      return shifts;
+    });
+
+    let workdays = 0;
+
+    weekdays.forEach((weekday) => {
+      for (const key in weekday) {
+        if (weekday[key] !== "Rest Day") {
+          workdays += 1;
+        }
+      }
+    });
+
+    const avgWorkdays = workdays / schedules.length;
+
+    setAverageWorkdays(avgWorkdays.toFixed(0));
   };
 
   const handleLogout = () => {
@@ -348,6 +371,7 @@ export const FirebaseProvider = ({ children }) => {
         isAdmin,
         isOwner,
         register,
+        averageWorkdays,
         setRegister,
         setFullName,
         setEmail,
@@ -364,6 +388,7 @@ export const FirebaseProvider = ({ children }) => {
         addShiftRequest,
         deleteShiftRequest,
         updateRole,
+        getAverageWorkdays,
         clearStates,
       }}
     >

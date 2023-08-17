@@ -1,5 +1,4 @@
 import React from "react";
-import Logo from "../../assets/logo.svg";
 import "./loader.scss";
 
 function Loader() {

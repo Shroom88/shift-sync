@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useContext } from "react";
 import FirebaseContext from "../../FirebaseContext";
 import Requests from "../requests/Requests";
@@ -11,9 +11,14 @@ import { ToastContainer } from "react-toastify";
 import "./admin-panel.scss";
 
 function AdminPanel() {
-  const { isAdmin, isLoading } = useContext(FirebaseContext);
+  const { isAdmin, isLoading, getAverageWorkdays, averageWorkdays } =
+    useContext(FirebaseContext);
 
   const [toggle, setToggle] = useState(false);
+
+  useEffect(() => {
+    getAverageWorkdays();
+  });
 
   const handleToggle = () => {
     setToggle(!toggle);
@@ -26,6 +31,11 @@ function AdminPanel() {
         <img className="admin__logo" src={Logo} alt="Logo" />
         <h1 className="admin__header">Admin Panel</h1>
         <img className="admin__logo" src={Logo} alt="Logo" />
+      </div>
+
+      <div className="admin__average">
+        Average Workdays Per Week:{" "}
+        <span className="admin__workdays">{averageWorkdays}</span>
       </div>
 
       {toggle ? <Users /> : <Requests />}
